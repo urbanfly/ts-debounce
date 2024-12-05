@@ -30,3 +30,5 @@ testInference(
     expectType<number>(a);
   })
 );
+
+expectType<() => Promise<number>>(debounce(() => Promise.resolve(42)));

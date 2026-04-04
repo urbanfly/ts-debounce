@@ -117,6 +117,21 @@ describe("debounce", () => {
       await promise;
       expect(callback).toBeCalledWith(mockValue);
     });
+
+    test("callback receives a Promise (not the resolved value) when debouncing an async function", async () => {
+      const asyncFunc = jest.fn().mockResolvedValue(42);
+      const receivedValues: unknown[] = [];
+      const callback = (data: unknown) => receivedValues.push(data);
+
+      const debouncedFunction = debounce(asyncFunc, 100, { callback });
+      const promise = debouncedFunction();
+      jest.advanceTimersByTime(100);
+      await promise;
+
+      expect(receivedValues).toHaveLength(1);
+      // callback receives the raw return value of the function — a Promise, not the resolved number
+      await expect(receivedValues[0]).resolves.toEqual(42);
+    });
   });
 
   describe("promises", () => {

@@ -30,3 +30,10 @@ testInference(
     expectType<number>(a);
   })
 );
+
+// assert that callback function receives the raw return value of the debounced function — Promise<T>, not T.
+debounce(() => Promise.resolve(42), 100, {
+  callback: (data: Promise<number>) => {
+    expectType<Promise<number>>(data);
+  },
+});

@@ -22,7 +22,7 @@ interface DebouncedPromise<FunctionReturn> {
 export function debounce<Args extends any[], F extends (...args: Args) => any>(
   func: F,
   waitMilliseconds = 50,
-  options: Options<Awaited<ReturnType<F>>> = {}
+  options: Options<ReturnType<F>> = {}
 ): DebouncedFunction<Args, F> {
   let timeoutId: ReturnType<typeof setTimeout> | undefined;
   const isImmediate = options.isImmediate ?? false;
